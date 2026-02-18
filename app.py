@@ -11,15 +11,48 @@ import pandas as pd
 import streamlit as st
 
 # PDF (ReportLab)
-from reportlab.lib.pagesizes import A4
-from reportlab.lib.units import mm
-from reportlab.lib import colors
-from reportlab.platypus import (
-    SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, PageBreak, Image as RLImage
-)
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib.enums import TA_LEFT, TA_CENTER
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
+from reportlab.lib.pagesizes import A4
+from reportlab.lib import colors
+from reportlab.lib.units import mm
+import os
+
+BASE_DIR = os.path.dirname(__file__)
+FONT_REG = os.path.join(BASE_DIR, "fonts", "NotoSansKR-Regular.ttf")
+FONT_BOLD = os.path.join(BASE_DIR, "fonts", "NotoSansKR-Bold.ttf")
+
+pdfmetrics.registerFont(TTFont("NotoSansKR", FONT_REG))
+if os.path.exists(FONT_BOLD):
+    pdfmetrics.registerFont(TTFont("NotoSansKR-Bold", FONT_BOLD))
+
+styles = getSampleStyleSheet()
+STYLE_BODY = ParagraphStyle(
+    "body",
+    parent=styles["Normal"],
+    fontName="NotoSansKR",
+    fontSize=10.5,
+    leading=14,
+)
+STYLE_H1 = ParagraphStyle(
+    "h1",
+    parent=styles["Heading1"],
+    fontName="NotoSansKR-Bold" if os.path.exists(FONT_BOLD) else "NotoSansKR",
+    fontSize=18,
+    leading=22,
+    alignment=TA_LEFT,
+)
+STYLE_H2 = ParagraphStyle(
+    "h2",
+    parent=styles["Heading2"],
+    fontName="NotoSansKR-Bold" if os.path.exists(FONT_BOLD) else "NotoSansKR",
+    fontSize=13,
+    leading=18,
+)
+
 
 # OpenAI (new style)
 from openai import OpenAI
