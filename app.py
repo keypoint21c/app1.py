@@ -605,7 +605,7 @@ if user.get("is_admin"):
 
         st.markdown("### 승인/해제")
         c1, c2, c3 = st.columns([2,1,1])
-        target = c1.text_input("대상 이메일", value="")
+        target = c1.text_input("대상 이메일", value=user["email"])
         if c2.button("승인"):
             if target:
                 upsert_user(sb, target, approved=True, is_admin=False)
