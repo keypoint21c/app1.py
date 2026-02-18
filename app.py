@@ -653,7 +653,35 @@ if btn:
         "income_rate": float(income_rate),
         "concerns": str(concerns),
         "is_regional": bool(is_regional),
-        "sim_table_markdown": sim_df.to_markdown(index=False),
+        "sim_table_markdown": sim_def df_to_pdf_table(df, max_rows=30):
+    df2 = df.head(max_rows).copy()
+
+    # 표 데이터 (헤더 + 행)
+    data = [list(df2.columns)] + df2.astype(str).values.tolist()
+
+    # 컬럼 너비(대충 자동) - 필요하면 수동 조정
+    col_count = len(df2.columns)
+    total_width = 180 * mm
+    col_widths = [total_width / col_count] * col_count
+
+    t = Table(data, colWidths=col_widths, repeatRows=1)
+
+    t.setStyle(TableStyle([
+        ("FONTNAME", (0, 0), (-1, -1), "NotoSansKR"),
+        ("FONTSIZE", (0, 0), (-1, -1), 9),
+        ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#F2F2F2")),
+        ("TEXTCOLOR", (0, 0), (-1, 0), colors.black),
+        ("GRID", (0, 0), (-1, -1), 0.25, colors.HexColor("#CCCCCC")),
+        ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+        ("ALIGN", (0, 0), (-1, 0), "CENTER"),
+        ("ALIGN", (0, 1), (-1, -1), "RIGHT"),
+        ("LEFTPADDING", (0,0), (-1,-1), 4),
+        ("RIGHTPADDING", (0,0), (-1,-1), 4),
+        ("TOPPADDING", (0,0), (-1,-1), 3),
+        ("BOTTOMPADDING", (0,0), (-1,-1), 3),
+    ]))
+    return t
+,
         "tone": tone
     }
 
